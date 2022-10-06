@@ -11,7 +11,7 @@ import 'package:web3dart/web3dart.dart';
 /// final walletConnect = WalletConnect(...);
 /// final provider = EthereumWalletConnectProvider(_walletConnect);
 /// final accounts = _walletConnect.session.accounts;
-/// final credentials = Web3EthereumCredentials(provider, addressHex: accounts.first);
+/// final credentials = WalletConnectCredentials(provider, addressHex: accounts.first);
 /// ```
 class WalletConnectCredentials extends CredentialsWithKnownAddress implements CustomTransactionSender {
   @override
