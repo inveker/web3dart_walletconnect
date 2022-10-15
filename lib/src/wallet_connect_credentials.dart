@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:web3dart/crypto.dart';
+import 'package:web3dart/json_rpc.dart';
 import 'package:web3dart/web3dart.dart';
 
 /// Custom Credentials compatible with web3dart library.
@@ -26,15 +27,19 @@ class WalletConnectCredentials extends CredentialsWithKnownAddress implements Cu
 
   @override
   Future<String> sendTransaction(Transaction transaction) async {
-    return await _provider.sendTransaction(
-      from: transaction.from!.hex,
-      to: transaction.to?.hex,
-      data: transaction.data,
-      gas: transaction.maxGas,
-      gasPrice: transaction.gasPrice?.getInWei,
-      value: transaction.value?.getInWei,
-      nonce: transaction.nonce,
-    );
+    try {
+      return await _provider.sendTransaction(
+        from: transaction.from!.hex,
+        to: transaction.to?.hex,
+        data: transaction.data,
+        gas: transaction.maxGas,
+        gasPrice: transaction.gasPrice?.getInWei,
+        value: transaction.value?.getInWei,
+        nonce: transaction.nonce,
+      );
+    } on WalletConnectException catch (e) {
+      throw RPCError(e.code, e.message, e.data);
+    }
   }
 
   @override

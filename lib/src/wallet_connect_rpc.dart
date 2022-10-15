@@ -17,7 +17,11 @@ class WalletConnectRpc extends RpcService {
 
   @override
   Future<RPCResponse> call(String function, [List? params]) async {
-    final res = await _connector.sendCustomRequest(method: function, params: params ?? []);
-    return RPCResponse(0, res);
+    try {
+      final res = await _connector.sendCustomRequest(method: function, params: params ?? []);
+      return RPCResponse(0, res);
+    } on WalletConnectException catch(e) {
+      throw RPCError(e.code, e.message, e.data);
+    }
   }
 }

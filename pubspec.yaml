@@ -7,7 +7,10 @@ environment:
   sdk: '>=2.18.1 <3.0.0'
 
 dependencies:
-  walletconnect_dart: ^0.0.11
+  walletconnect_dart:
+    git:
+      url: https://github.com/RootSoft/walletconnect-dart-sdk.git
+      ref: feature/string-chainid
   web3dart: ^2.4.1
 
 dev_dependencies:
