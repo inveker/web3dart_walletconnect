@@ -27,9 +27,12 @@ class WalletConnectCredentials extends CredentialsWithKnownAddress implements Cu
 
   @override
   Future<String> sendTransaction(Transaction transaction) async {
+    if(transaction.from?.hexEip55 != address.hexEip55) {
+      throw Exception('Transaction from != Credentials address');
+    }
     try {
       return await _provider.sendTransaction(
-        from: transaction.from!.hex,
+        from: transaction.from?.hex ?? address.hex,
         to: transaction.to?.hex,
         data: transaction.data,
         gas: transaction.maxGas,
